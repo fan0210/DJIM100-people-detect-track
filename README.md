@@ -38,8 +38,9 @@ next, copy all packages to `/catkin_ws/src` and<br>
   
 * Remote control
 
-  ** Now, you can use your remote control with custom functions to control the stop and start of tracking and detection. The control interface is defined in [client.cpp](https://github.com/FanKaii/DJIM100-people-detect-track/blob/master/dji_sdk_demo/src/client.cpp).
+  ** Now, you can use your remote control with custom functions to control the stop and start of tracking and detection. The control interface is defined in [client.cpp](https://github.com/FanKaii/DJIM100-people-detect-track/blob/master/dji_sdk_demo/src/client.cpp). **
   
+  ```
   void StartMission1Callback(DJIDrone *drone)
   {
       drone->request_sdk_permission_control();
@@ -55,14 +56,21 @@ next, copy all packages to `/catkin_ws/src` and<br>
           loop_rate.sleep();
       }
   }
-___
-
+  ```
+  
+  This callback function is used to start the task, that is to start the autonomous detection and tracking.
+  
+  ```
   void StartMission2Callback(DJIDrone *drone)
   {
       std_srvs::Empty srv;
       start_tracking.call(srv);
   }
-
+  ```
+  
+  This callback function is used to start tracking, that is, people_detect node give a [target](https://github.com/FanKaii/ros_people_detect/blob/master/msgs/msg/Target.msg) to kcf_track node. In fact, this goal     is the closest person to the center of the image, and if there is no people is detected, the tracking program will not run, but when any people is detected again, the tracking program will automatic run.
+  
+  ```
   void StartMission3Callback(DJIDrone *drone)
   {
       std_srvs::Empty srv;
@@ -72,7 +80,11 @@ ___
           detect_stop.call(srv);
       }
   }
+  ```
 
+  This callback function is used to start and stop people detecting.
+  
+  ```
   void StartMission4Callback(DJIDrone *drone)
   {
       std_srvs::Empty srv;
@@ -82,6 +94,8 @@ ___
           track_stop.call(srv);
       }
   }
+  ```
+  This callback function is used to stop kcf tracker.
   
 ## Show results
 
