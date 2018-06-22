@@ -1,0 +1,56 @@
+<launch>
+
+    <!-- convenient launch file for dji_client_node and track_node -->
+
+    <!-- for debug -->
+    <arg name="debug"     default="false" />  
+       
+    <arg unless="$(arg debug)"     name="mission"     default="0" />
+    <arg if="$(arg debug)"     name="mission"     default="1" />
+
+    <!-- for enable people track mission -->
+    <arg name="people_track" default="true" />
+    <arg name="namespace"     default="track_control" />
+  
+    <!-- for start people track mission,you can configure the parameters below -->
+    <group if="$(arg people_track)">
+        <arg name="max_v"     default="10.0" />               <!-- max veolity -->
+        <arg name="gps_available"     default="false" />      <!-- if gps is available,correct the parameter to "true" -->
+        <arg name="fixed_height"     default="7.0" />         <!-- if gps is not available,the parameter means the fix height of the drone -->
+
+        <arg name="image_topic"     default="/image_pub/image" />
+        <arg name="people_detected_targets_topic"     default="/people_detect/targets" />
+        <arg name="tracked_bb_topic"     default="/ros_kcf/kcf_track_object" />
+        <arg name="GPS_topic"     default="/dji_sdk/local_position" />
+
+        <node pkg="dji_sdk_demo" type="dji_sdk_client" name="dji_sdk_client" launch-prefix="xterm -e" >
+            <param name="DEBUG"       type="bool"    value="$(arg debug)" />
+            <param name="mission"     type="int"     value="$(arg mission)" />
+
+            <remap from="start_tracking"        to="/$(arg namespace)/start_tracking"/>
+            <remap from="stop_detecting"        to="/$(arg namespace)/stop_detecting"/>
+            <remap from="stop_tracking"         to="/$(arg namespace)/stop_tracking"/>
+            <remap from="track_stop"            to="/$(arg namespace)/track_stop"/>
+            <remap from="detect_stop"           to="/$(arg namespace)/detect_stop"/>
+            <remap from="velocity"              to="/$(arg namespace)/velocity"/>
+        </node>
+
+        <node pkg="dji_sdk_demo" type="track_node" name="track_node" output="screen"  ns="$(arg namespace)">
+            <param name="max_v"               type="double"       value="$(arg max_v)" />
+            <param name="gps_available"       type="bool"         value="$(arg gps_available)" />
+            <param name="fixed_height"        type="double"       value="$(arg fixed_height)" />
+
+            <remap from="image"                 to="$(arg image_topic)"/>
+            <remap from="detected_peoples"      to="$(arg people_detected_targets_topic)"/>
+            <remap from="tracked_bb"            to="$(arg tracked_bb_topic)"/>
+            <remap from="local_position"        to="$(arg GPS_topic)"/>
+        </node>
+    </group>
+
+</launch>
+
+
+
+
+
+
