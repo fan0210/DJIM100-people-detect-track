@@ -101,7 +101,7 @@ next, copy all packages to `/catkin_ws/src` and<br>
 
   Here is a video:<br>
   
-  [autonomous detection and tracking.mp4]()
+  [autonomous detection and tracking.mp4](https://github.com/FanKaii/DJIM100-people-detect-track/tree/master/video)
 
   ![img1 load error](https://github.com/FanKaii/ros_people_detect/blob/master/image/img1.png)
   ![img2 load error](https://github.com/FanKaii/ros_people_detect/blob/master/image/img2.png)
