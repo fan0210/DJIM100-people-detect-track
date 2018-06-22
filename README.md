@@ -7,26 +7,81 @@ A ros demo for people detection and tracking on DJI M100 drone
 * [ROS](http://wiki.ros.org/ROS/Installation)
 * [OnboardSDK](https://github.com/dji-sdk/Onboard-SDK-ROS/tree/3.2)
 * [MobileSDK](https://github.com/dji-sdk/Mobile-SDK-Android)
-* [people detect pkg](https://github.com/FanKaii/ros_people_detect)
-* [kcf tracker pkg](https://github.com/FanKaii/ros_kcf)
+* [people_detect pkg](https://github.com/FanKaii/ros_people_detect/tree/master/people_detect)
+* [kcf_tracker pkg](https://github.com/FanKaii/ros_kcf)
+* [msgs pkg](https://github.com/FanKaii/ros_people_detect/tree/master/msgs)
 
 ### 2.Create a workspace and compile
 `mkdir -p ~/catkin_ws/src`<br>
-next, copy these packages to `/catkin_ws/src` and<br>
+
+next, copy all packages to `/catkin_ws/src` and<br>
+
 `catkin_make`<br>
 
 ## Usage 
 * Set your own image topic
 
-  find [ros_people_detect.launch](https://github.com/FanKaii/ros_people_detect/blob/master/people_detect/launch/ros_people_detect.launch) and [people_detect_test.launch](https://github.com/FanKaii/ros_people_detect/blob/master/people_detect_test/launch/people_detect_test.launch) and replace `/image_pub/image` with your own image topic.
+  find [ros_people_detect.launch](https://github.com/FanKaii/ros_people_detect/blob/master/people_detect/launch/ros_people_detect.launch), [ros_kcf_node.launch](https://github.com/FanKaii/ros_kcf/blob/master/ros_kcf/launch/ros_kcf_node.launch),[dji_sdk_client.launch](https://github.com/FanKaii/DJIM100-people-detect-track/blob/master/dji_sdk_demo/launch/dji_sdk_client.launch), and replace `/image_pub/image` with your own image topic.
 
+* Run dji_sdk_client and dji_sdk
+
+  `roslaunch dji_sdk_demo dji_sdk_client.launch`
+  `roslaunch dji_sdk sdk_manifold.launch`
+  
 * Run people_detect node
 
   `roslaunch people_detect ros_people_detect.launch`
   
-* Run people_detect_test node
+* Run ros_kcf node
 
-  `roslaunch people_detect_test people_detect_test.launch`
+  `roslaunch ros_kcf ros_kcf_node.launch`
+  
+* Remote control
+
+  ** Now, you can use your remote control with custom functions to control the stop and start of tracking and detection. The control interface is defined in [client.cpp](https://github.com/FanKaii/DJIM100-people-detect-track/blob/master/dji_sdk_demo/src/client.cpp).
+  
+  void StartMission1Callback(DJIDrone *drone)
+  {
+      drone->request_sdk_permission_control();
+      sleep(1);
+
+      ros::Rate loop_rate(50);
+
+      while(ros::ok())
+      {
+          ros::spinOnce();
+          drone->attitude_control(0x4B,forwardV,leftrV,heightV,yawV);
+          cout<<fixed<<setprecision(2)<<"          "<<forwardV<<"  "<<leftrV<<"  "<<heightV<<"  "<<yawV<<endl;
+          loop_rate.sleep();
+      }
+  }
+___
+
+  void StartMission2Callback(DJIDrone *drone)
+  {
+      std_srvs::Empty srv;
+      start_tracking.call(srv);
+  }
+
+  void StartMission3Callback(DJIDrone *drone)
+  {
+      std_srvs::Empty srv;
+      if(stop_detecting.call(srv))
+      {
+          sleep(1);
+          detect_stop.call(srv);
+      }
+  }
+
+  void StartMission4Callback(DJIDrone *drone)
+  {
+      std_srvs::Empty srv;
+      if(stop_tracking.call(srv))
+      {
+          sleep(1);
+          track_stop.call(srv);
+      }
+  }
   
 ## Show results
 
