@@ -38,7 +38,7 @@ next, copy all packages to `/catkin_ws/src` and<br>
   
 * Remote control
 
-  ** Now, you can use your remote control with custom functions to control the stop and start of tracking and detection. The control interface is defined in [client.cpp](https://github.com/FanKaii/DJIM100-people-detect-track/blob/master/dji_sdk_demo/src/client.cpp). **
+  Now, you can use your remote control with custom functions to control the stop and start of tracking and detection. The control interface is defined in [client.cpp](https://github.com/FanKaii/DJIM100-people-detect-track/blob/master/dji_sdk_demo/src/client.cpp).
   
   ```
   void StartMission1Callback(DJIDrone *drone)
