@@ -21,7 +21,7 @@ next, copy all packages to `/catkin_ws/src` and<br>
 ## Usage 
 * Set your own image topic
 
-  find [ros_people_detect.launch](https://github.com/FanKaii/ros_people_detect/blob/master/people_detect/launch/ros_people_detect.launch), [ros_kcf_node.launch](https://github.com/FanKaii/ros_kcf/blob/master/ros_kcf/launch/ros_kcf_node.launch),[dji_sdk_client.launch](https://github.com/FanKaii/DJIM100-people-detect-track/blob/master/dji_sdk_demo/launch/dji_sdk_client.launch), and replace `/image_pub/image` with your own image topic.
+  find [ros_people_detect.launch](https://github.com/FanKaii/ros_people_detect/blob/master/people_detect/launch/ros_people_detect.launch), [ros_kcf_node.launch](https://github.com/FanKaii/ros_kcf/blob/master/ros_kcf/launch/ros_kcf_node.launch), [dji_sdk_client.launch](https://github.com/FanKaii/DJIM100-people-detect-track/blob/master/dji_sdk_demo/launch/dji_sdk_client.launch), and replace `/image_pub/image` with your own image topic.
 
 * Run dji_sdk_client and dji_sdk
 
