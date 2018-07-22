@@ -100,7 +100,7 @@ next, copy all packages to `/catkin_ws/src` and<br>
 ## Show results
 
   **videos**:<br>
-  [autonomous detection and tracking.mp4](https://v.youku.com/v_show/id_XMzcyNjUwNDkzMg==.html?spm=a2h0k.11417342.soresults.dposter)<br>
+  [autonomous detection and tracking.mp4](https://www.bilibili.com/video/av27421045?from=search&seid=17433623301800450611)<br>
 
   ![img1 load error](https://github.com/FanKaii/ros_people_detect/blob/master/image/img1.png)
   ![img2 load error](https://github.com/FanKaii/ros_people_detect/blob/master/image/img2.png)
